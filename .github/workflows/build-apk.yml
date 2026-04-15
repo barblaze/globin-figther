@@ -1,5 +1,4 @@
 
-
 name: Build APK
 
 on:
@@ -23,8 +22,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Initialize Capacitor
-        run: npx cap init 'Globin Fighter' 'com.globin.fighter'
+      - name: Setup Capacitor config
+        run: |
+          cat > capacitor.config.json << 'EOF'
+          {
+            "appId": "com.globin.fighter",
+            "appName": "Globin Fighter",
+            "webDir": ".",
+            "server": {
+              "androidScheme": "https"
+            }
+          }
+          EOF
 
       - name: Add Android platform
         run: npx cap add android
