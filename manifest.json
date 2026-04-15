@@ -2,7 +2,7 @@
   "name": "Globin Fighter",
   "short_name": "Globin",
   "description": "Juego de globos fighter",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#020617",
