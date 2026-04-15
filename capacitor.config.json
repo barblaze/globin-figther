@@ -1,0 +1,14 @@
+{
+  "appId": "com.globin.fighter",
+  "appName": "Globin Fighter",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#020617"
+    }
+  }
+}

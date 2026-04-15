@@ -1,0 +1,23 @@
+{
+  "name": "globin-fighter",
+  "version": "1.0.0",
+  "description": "Globin Fighter PWA and APK",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Build complete'",
+    "cap:init": "npx cap init 'Globin Fighter' 'com.globin.fighter' --web-dir=.",
+    "cap:add": "npx cap add android",
+    "cap:sync": "npx cap sync android",
+    "cap:copy": "npx cap copy",
+    "android:open": "npx cap open android",
+    "android:build:apk": "cd android && ./gradlew assembleDebug"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0"
+  }
+}
