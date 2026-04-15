@@ -35,10 +35,7 @@ jobs:
           }
           EOF
 
-      - name: Add Android platform
-        run: npx cap add android
-
-      - name: Sync web to Android
+      - name: Sync Capacitor
         run: npx cap sync android
 
       - name: Build debug APK
