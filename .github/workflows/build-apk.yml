@@ -1,4 +1,5 @@
 
+
 name: Build APK
 
 on:
@@ -28,12 +29,20 @@ jobs:
           {
             "appId": "com.globin.fighter",
             "appName": "Globin Fighter",
-            "webDir": ".",
+            "webDir": "www",
             "server": {
               "androidScheme": "https"
             }
           }
           EOF
+
+      - name: Create www directory and copy files
+        run: |
+          mkdir -p www
+          cp index.html www/
+          cp manifest.json www/
+          cp sw.js www/
+          cp -r icons www/
 
       - name: Add Android platform
         run: |
