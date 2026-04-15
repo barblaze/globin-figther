@@ -35,6 +35,12 @@ jobs:
           }
           EOF
 
+      - name: Add Android platform
+        run: |
+          if [ ! -d "android" ]; then
+            npx cap add android
+          fi
+
       - name: Sync Capacitor
         run: npx cap sync android
 
@@ -44,18 +50,19 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: globin-fighter-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
-      - name: Upload to Releases
+      - name: Create Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v1
         with:
           files: android/app/build/outputs/apk/debug/app-debug.apk
           tag_name: v${{ github.run_number }}
           release_name: Globin Fighter v${{ github.run_number }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
