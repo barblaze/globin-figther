@@ -116,7 +116,7 @@ canvas{display:block;width:100%;height:100%;object-fit:contain}
     </div>
     <div id="survB" style="display:none;text-align:center"><div class="hl">TIEMPO</div><div id="survT" style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--yellow);letter-spacing:4px;text-shadow:0 0 18px rgba(255,214,0,.4)">60</div><div class="hl">OLEADA <span id="waveN" style="color:#fff">1</span></div></div>
     <div id="espB" style="display:none;background:var(--cyan);color:#000;font-size:8px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:2px" class="aw">⚡ ESPEJO</div>
-    <div id="preW" style="display:none" class="warn aw" style="background:#fbbf24;color:#000">⚠ GRAVEDAD EN <span id="warnT">10</span>s</div>
+    <div id="preW" class="warn aw" style="display:none;background:#fbbf24;color:#000">⚠ GRAVEDAD EN <span id="warnT">10</span>s</div>
     <div id="hazW" style="display:none" class="warn aw" style="background:#dc2626;color:#fff">⚠ GRAVEDAD EXTREMA</div>
     <div id="astW" style="display:none" class="warn aw" style="background:#7c3aed;color:#fff">⚡ ALERTA ASTRO</div>
   </div>
@@ -254,7 +254,7 @@ const MNAMES={clasico:'CLÁSICO',survival:'SUPERVIV.',espejo:'ESPEJO',hunt:'CAZA
 // ─────────────────────────────────────────────
 const SK='bf_v4';
 let SV={hs:0,ml:1};
-function loadSV(){try{const d=localStorage.getItem(SK);if(d)SV=JSON.parse(d)}catch(e){}}
+function loadSV(){try{const d=localStorage.getItem(SK);if(d)SV=JSON.parse(d)}catch(e){console.warn('Error loading save:',e)}}
 function writeSV(){try{localStorage.setItem(SK,JSON.stringify(SV))}catch(e){}}
 function refreshMenuScores(){
   $('mHS').textContent=SV.hs.toString().padStart(6,'0');
@@ -391,11 +391,11 @@ class Char{
 
   update(){
     if(this.dead)return;
-    const grav=(G.evPhase==='ACTIVE')?.40:.22;
+    const grav = G.evPhase === 'ACTIVE' ? 0.40 : 0.22;
     this.lift*=.87;
     this.vy+=grav-this.lift;
     this.vy*=.98;
-    this.vx*=this.onGnd?.70:.94;
+    this.vx *= this.onGnd ? 0.70 : 0.94;
     this.vx+=G.wind;
     this.wobble=this.onGnd?this.wobble*.8:Math.sin(G.fr*.12+this.x*.01)*.07;
     this.vy=Math.clamp(this.vy,-13,15);
@@ -635,8 +635,7 @@ function doCollisions(){
       if(Math.abs(dx)>8){
         e.pop();
       } else {
-        if(e.shields===2)e.pop();
-        if(e.shields===1)e.pop();
+        e.pop();
       }
     }
     else if(enemyFallsOnPlayer && PL.invul===0){
@@ -668,7 +667,7 @@ function updPlayer(){
   if(fQ){PL.flap();fQ=false}
   const lk=(G.mode==='espejo'&&G.esFlip)?K['ArrowRight']:K['ArrowLeft'];
   const rk=(G.mode==='espejo'&&G.esFlip)?K['ArrowLeft']:K['ArrowRight'];
-  const acc=PL.onGnd?.68:.42;
+  const acc = PL.onGnd ? 0.68 : 0.42;
   if(lk)PL.vx-=acc;if(rk)PL.vx+=acc;
   if(PL.weapon&&G.fr%20===0&&(lk||rk||!PL.onGnd))PL.shoot();
   PL.update();
@@ -877,7 +876,7 @@ if('serviceWorker' in navigator){
 }
 
 const CURRENT_VERSION = '1.0.0';
-const REPO_OWNER = 'barblaze ';
+const REPO_OWNER = 'barblaze';
 const REPO_NAME = 'globin-fighter';
 
 async function checkAPKUpdate(){
@@ -915,10 +914,12 @@ function showUpdateNotification(version, downloadUrl){
     box-shadow:0 8px 32px rgba(0,0,0,.5);max-width:90%;
     animation:slideUp .3s ease;
   `;
+  const safeUrl = downloadUrl && downloadUrl.startsWith('https://') ? downloadUrl : '';
+  if (!safeUrl) return;
   notification.innerHTML = `
     <div style="font-size:11px;letter-spacing:2px;margin-bottom:6px">NUEVA VERSIÓN</div>
     <div style="font-size:18px;font-weight:bold;margin-bottom:10px">${version}</div>
-    <a href="${downloadUrl}" style="display:inline-block;background:#ffd600;color:#000;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:10px;font-weight:bold;letter-spacing:1px">DESCARGAR APK</a>
+    <a href="${safeUrl}" style="display:inline-block;background:#ffd600;color:#000;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:10px;font-weight:bold;letter-spacing:1px">DESCARGAR APK</a>
   `;
   document.body.appendChild(notification);
 }
