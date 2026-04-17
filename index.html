@@ -727,7 +727,7 @@ function updPlayer(){
   const rk=(G.mode==='espejo'&&G.esFlip)?K['ArrowLeft']:K['ArrowRight'];
   const acc = PL.onGnd ? 0.80 : 0.50;
   if(lk)PL.vx-=acc;if(rk)PL.vx+=acc;
-  if(PL.weapon&&G.fr%20===0&&(lk||rk||!PL.onGnd))PL.shoot();
+  if(PL.weapon&&G.fr%20===0)PL.shoot();
   PL.update();
 }
 function updEnemies(){EN.forEach(e=>{if(!e.dead)e.update()})}
