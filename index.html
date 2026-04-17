@@ -99,7 +99,7 @@ canvas{display:block;width:100%;height:100%;object-fit:contain}
 .combo-pop{animation:cp .3s ease both}
 
 /* MOBILE CTRL */
-.ctrl{position:absolute;bottom:14px;pointer-events:auto;display:flex;gap:9px}
+.ctrl{position:absolute;bottom:80px;pointer-events:auto;display:flex;gap:9px}
 .cbtn{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,242,255,.07);border:1px solid rgba(0,242,255,.2);color:var(--cyan);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;transition:background .08s}
 .cbtn:active{background:rgba(0,242,255,.22);box-shadow:0 0 16px rgba(0,242,255,.3)}
 .cfly{width:74px;height:74px;border-color:rgba(0,242,255,.38);font-size:12px}
@@ -259,7 +259,7 @@ let CW=800,CH=800;
 let stars=[];
 function initStars(){stars=[];for(let i=0;i<80;i++)stars.push({x:Math.random()*CW,y:Math.random()*CH,r:Math.random()*1.3+.3,sp:Math.random()*.08+.02,op:Math.random()*.28+.1})}
 
-function resize(){const ar=window.innerWidth/window.innerHeight;CH=800;CW=CH*ar;CV.width=CW;CV.height=CH;initStars()}
+function resize(){const ar=window.innerWidth/window.innerHeight;CH=800;CW=CH*ar;CV.width=CW;CV.height=CH;CX.imageSmoothingEnabled=false;initStars()}
 window.addEventListener('resize',resize);
 
 // ─────────────────────────────────────────────
@@ -944,9 +944,9 @@ function loop(){
     if(G.mode==='survival')updSurvival();
     if(G.mode!=='survival'&&EN.length>0&&EN.every(e=>e.dead)){G.lv++;G.sc+=G.lv*200;if(G.lv>50)showEnd(true);else initLevel()}
   }
+  CX.clearRect(0,0,CW,CH);
   CX.save();
   if(shF>0){CX.translate((Math.random()-.5)*shM,(Math.random()-.5)*shM);shF--;shM*=.82;if(shF<=0)shM=0}
-  CX.clearRect(0,0,CW,CH);
   drawBG();PF.forEach(p=>p.draw());drawLava();drawAstro();drawLaser();drawEspejoFx();drawItems();
   EN.forEach(e=>e.draw());if(PL)PL.draw();
   PR.forEach(p=>p.draw());BO.forEach(b=>b.draw());
