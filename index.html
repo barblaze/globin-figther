@@ -851,6 +851,7 @@ function loop(){
   }
   CX.save();
   if(shF>0){CX.translate((Math.random()-.5)*shM,(Math.random()-.5)*shM);shF--;shM*=.82;if(shF<=0)shM=0}
+  CX.clearRect(0,0,CW,CH);
   drawBG();PF.forEach(p=>p.draw());drawLava();drawAstro();drawLaser();drawEspejoFx();drawItems();
   EN.forEach(e=>e.draw());if(PL)PL.draw();
   PR.forEach(p=>p.draw());BO.forEach(b=>b.draw());
