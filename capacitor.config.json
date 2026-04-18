@@ -1,7 +1,7 @@
 {
   "appId": "com.globin.fighter",
   "appName": "Globin Fighter",
-  "webDir": "www",
+  "webDir": ".",
   "server": {
     "androidScheme": "https"
   }
