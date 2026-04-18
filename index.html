@@ -624,7 +624,7 @@ function initLevel(){
   nxtItem=G.fr+500;G.evPhase='IDLE';G.evNext=G.fr+800+Math.random()*1200;G.laserOn=false;
   ['preW','hazW','astW'].forEach(id=>hide(id));
   G.astroOn=false;G.astro=null;
-  if(G.lv>=5){G.astro={icon:['☀️','🌙','☁️','⭐'][Math.floor(Math.random()*4)],x:CW/2,y:85};G.astroOn=true;show('astW')}
+  if(G.lv>=5){G.astro={icon:['☀️','🌙','☁️','⭐'][Math.floor(Math.random()*4)],x:CW/2,y:85,timer:600};G.astroOn=true;show('astW')}
   buildPF(G.lv);
   const cnt=Math.min(2+Math.floor(G.lv*1.2),13);
   spawnEN(cnt,G.lv);updateHUD();
@@ -770,6 +770,7 @@ function updParticles(){
 }
 function updAstro(){
   if(!G.astroOn||!G.astro)return;
+  if(G.astro.timer>0){G.astro.timer--;if(G.astro.timer<=0){G.astroOn=false;G.astro=null;hide('astW');return}}
   G.astro.x=(CW/2)+Math.sin(G.fr*.018)*(CW*.38);
   if(G.fr%270===0&&PL&&!PL.dead){AU.bolt();const a=Math.atan2(PL.y-G.astro.y,PL.x-G.astro.x);BO.push(new Bolt(G.astro.x,G.astro.y,Math.cos(a)*7.8,Math.sin(a)*7.8))}
 }
